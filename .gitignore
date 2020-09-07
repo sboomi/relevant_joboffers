@@ -1,0 +1,8 @@
+# VS Code stuff
+.vscode
+
+#PyCharm stuff
+.idea
+
+#Notebook tests
+notebooktest/*
