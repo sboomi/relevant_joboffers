@@ -6,3 +6,6 @@
 
 #Notebook tests
 notebooktest/*
+
+#Geckodriver log
+geckodriver.log

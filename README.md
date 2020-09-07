@@ -11,6 +11,10 @@ We're retrieving the essential information :
 * Job type and status
 * **BONUS:** we'll be looking at required technological skills suited for the job and list them up
 
+### Requirements
+
+Need Firefox installed, then the most recent version of GeckoDriver, as a PATH variable.
+
 ## Database
 
 The main database will be a MongoDB database, which is not only useful for scalability, but also stocking subcollections.
