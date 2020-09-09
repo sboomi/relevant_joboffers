@@ -9,7 +9,10 @@ chardet==3.0.4
 colorama==0.4.3
 decorator==4.4.2
 defusedxml==0.6.0
+dnspython==2.0.0
 entrypoints==0.3
+geographiclib==1.50
+geopy==2.0.0
 idna==2.10
 importlib-metadata @ file:///C:/ci/importlib-metadata_1593446511143/work
 ipykernel @ file:///C:/ci/ipykernel_1596190155316/work/dist/ipykernel-5.3.4-py3-none-any.whl
@@ -36,6 +39,7 @@ prometheus-client==0.8.0
 prompt-toolkit @ file:///tmp/build/80754af9/prompt-toolkit_1598885458782/work
 pycparser @ file:///tmp/build/80754af9/pycparser_1594388511720/work
 Pygments==2.6.1
+pymongo==3.11.0
 pyparsing==2.4.7
 pyrsistent==0.16.0
 python-dateutil==2.8.1
