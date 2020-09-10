@@ -13,7 +13,13 @@ We're retrieving the essential information :
 
 ### Requirements
 
-Need Firefox installed, then the most recent version of GeckoDriver, as a PATH variable.
+Need Firefox installed, then the most recent version of GeckoDriver, as a PATH variable. On the long term, geckDriver is much more reliable than Chrome's driver due to less frequent updates.
+
+Python 3.8.x is also needed on your system. Load the `requirements.txt` file in a separate environment (conda, venv, etc...) and launch
+
+```shell
+pip install -r requirements.txt
+```
 
 ## Database
 
@@ -42,3 +48,12 @@ Available in French :
 
 https://docs.google.com/spreadsheets/d/1GTKcRXZuHFAseyEYP8jcjEyoOOkH5gcijuvUz66B7jQ/edit?usp=sharing
 
+## To-Dos 
+
+[] Implement a search engine
+[] Implement a mail alert
+
+[] Add more JobBoards
+[] Customize template
+[] Add more keywords
+[] Adopt a class system for each JobBoard
