@@ -1,0 +1,16 @@
+{%  extends "layout.html" %}
+{% block content %}
+    <h1>{{ offer.title }}</h1>
+
+    <p>{{ offer._id }}</p>
+    <p>{{ offer.company }}</p>
+    <p>{{ offer.job_type }}</p>
+
+    <div>
+    {{ offer.description }}
+    </div>
+
+    <p><a href="{{ offer.url }}">Se rendre sur le site de l'offre</a></p>
+
+
+{% endblock content %}

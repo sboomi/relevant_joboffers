@@ -1,0 +1,18 @@
+{%  extends "layout.html" %}
+{% block content %}
+
+    <h2>Query result</h2>
+    <div>
+    {%  for offer in results %}
+        <div>
+            <h3>{{ offer.title }}</h3>
+            <a href={{ offer.url }}>Link</a>
+            <p>{{ offer.job_type }}</p>
+            <p>Lieu :</p>
+            <p>{{ offer.address }}</p>
+        </div>
+    {% endfor %}
+    </div>
+
+
+{% endblock content %}
