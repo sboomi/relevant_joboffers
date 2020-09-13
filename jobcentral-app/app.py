@@ -2,6 +2,10 @@ from flask import Flask, render_template, url_for, redirect, flash
 from flask_wtf import FlaskForm
 from wtforms import StringField, SubmitField
 from flask_pymongo import PyMongo
+import numpy as np
+from sklearn.metrics.pairwise import cosine_similarity
+from sklearn.feature_extraction.text import TfidfVectorizer
+import pickle
 import re
 
 app = Flask(__name__)
@@ -11,6 +15,8 @@ app.config["SECRET_KEY"] = '_22XnxI2rAVNGqwFf29I5UksyP5Mi_IpvFOSVGEBRhI'
 
 mongo = PyMongo(app)
 
+with open("searchbar_model",'rb') as file:
+    searchbar_model = pickle.load(file)
 
 class SearchForm(FlaskForm):
     query = StringField('Enter keywords')
@@ -35,7 +41,11 @@ def get_results(query):
     if not sum([1 if value else 0 for value in query.values()]):
         flash('Hmm... Your query is empty...', 'info')
         results = mongo.db.data.find().limit(10)
-    # Insert earch engine here
+    keyword_vector = searchbar_model["model"].transform(query.keywords)
+    cos_d = cosine_similarity(keyword_vector, searchbar_model["X"])
+    simlist = cos_d[0]
+    get_ids = [searchbar_model["y"][i] for i in np.argsort(simlist)[::-1]]
+    results = mongo.db.data.find({"_id": {"$in": get_ids}})
     return render_template('results.html', results=results)
 
 
