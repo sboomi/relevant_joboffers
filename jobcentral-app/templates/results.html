@@ -5,7 +5,7 @@
     <div>
     {%  for offer in results %}
         <div>
-            <h3>{{ offer.title }}</h3>
+            <h3><a href="{{ url_for('show_offer', offer_id=offer._id) }}">{{ offer.title }}</a></h3>
             <a href={{ offer.url }}>Link</a>
             <p>{{ offer.job_type }}</p>
             <p>Lieu :</p>

@@ -15,8 +15,9 @@ app.config["SECRET_KEY"] = '_22XnxI2rAVNGqwFf29I5UksyP5Mi_IpvFOSVGEBRhI'
 
 mongo = PyMongo(app)
 
-with open("searchbar_model",'rb') as file:
+with open("jobcentral-app/searchbar_model", 'rb') as file:
     searchbar_model = pickle.load(file)
+
 
 class SearchForm(FlaskForm):
     query = StringField('Enter keywords')
@@ -40,7 +41,7 @@ def hello_world():
 def get_results(query):
     if not sum([1 if value else 0 for value in query.values()]):
         flash('Hmm... Your query is empty...', 'info')
-        results = mongo.db.data.find().limit(10)
+        return render_template('results.html', results=mongo.db.data.find().limit(10))
     keyword_vector = searchbar_model["model"].transform(query.keywords)
     cos_d = cosine_similarity(keyword_vector, searchbar_model["X"])
     simlist = cos_d[0]
@@ -49,10 +50,10 @@ def get_results(query):
     return render_template('results.html', results=results)
 
 
-@app.route("/offer/<int:offer_id>")
+@app.route("/offer/<string:offer_id>")
 def show_offer(offer_id):
     offer = mongo.db.data.find_one_or_404({"_id": offer_id})
-    return render_template('offer.html', title=offer.title, offer=offer)
+    return render_template('offer.html', title=offer["title"], offer=offer)
 
 
 if __name__ == '__main__':
