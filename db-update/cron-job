@@ -1,0 +1,1 @@
+* 9 * * * python jobscraping/jobscraping.py && python model/clean_database.py && python model/tfidf.py >> cron.log 2>&1

@@ -1,4 +1,4 @@
-from flask import Flask, render_template, url_for, redirect, flash
+from flask import Flask, render_template, url_for, redirect, flash, request
 from flask_wtf import FlaskForm
 from wtforms import StringField, SubmitField
 from flask_pymongo import PyMongo
@@ -27,26 +27,34 @@ class SearchForm(FlaskForm):
 
 @app.route('/')
 @app.route("/main", methods=['GET', 'POST'])
-def hello_world():
+def main_menu():
     latest_jobs = mongo.db.data.find().limit(10)
     form = SearchForm()
-    if form.validate_on_submit():
-        query = {"keywords": re.split(r'\W', form.query.data),
-                 "city": form.query.city}
-        return get_results(query)
+    if request.method == "POST" and form.validate_on_submit():
+        keywords = form.query.data if hasattr(form.query, 'data') else ""
+        city = form.query.city if hasattr(form.query, 'city') else ""
+        return redirect((url_for('get_results', keywords=keywords, city=city)))
     return render_template("main.html", latest_jobs=latest_jobs, form=form)
 
 
 @app.route('/results')
-def get_results(query):
-    if not sum([1 if value else 0 for value in query.values()]):
+def get_results():
+    keywords = request.args.get("keywords")
+    city = request.args.get("city")
+    if not keywords and not city:
         flash('Hmm... Your query is empty...', 'info')
         return render_template('results.html', results=mongo.db.data.find().limit(10))
-    keyword_vector = searchbar_model["model"].transform(query.keywords)
+    keywords = re.split(r'\W', keywords)
+    keyword_vector = searchbar_model["model"].transform(keywords)
     cos_d = cosine_similarity(keyword_vector, searchbar_model["X"])
     simlist = cos_d[0]
     get_ids = [searchbar_model["y"][i] for i in np.argsort(simlist)[::-1]]
-    results = mongo.db.data.find({"_id": {"$in": get_ids}})
+    offer_request = {"_id": {"$in": get_ids}}
+    if city:
+        offer_request["city"] = {"$regex": city,
+                                 "$options": 'i'}
+    results = mongo.db.data.find(offer_request)
+    flash(f'Success!! Returned {results.count()}...', 'success')
     return render_template('results.html', results=results)
 
 

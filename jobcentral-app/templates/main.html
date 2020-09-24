@@ -2,7 +2,7 @@
 {% block content %}
     <h1>JobCentral - Start or boost your career now!</h1>
 
-    <form method="POST" action="">
+    <form method="POST" action="{{ url_for('main_menu') }}">
         {{  form.hidden_tag() }}
     <fieldset>
         <div class="form-group">
