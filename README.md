@@ -50,7 +50,7 @@ https://docs.google.com/spreadsheets/d/1GTKcRXZuHFAseyEYP8jcjEyoOOkH5gcijuvUz66B
 
 ## To-Dos 
 
-[] Implement a search engine
+[x] Implement a search engine
 [] Implement a mail alert
 
 [] Add more JobBoards

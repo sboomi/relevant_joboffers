@@ -10,6 +10,11 @@ from jcmodule.forms import SearchForm
 @app.route('/')
 @app.route("/main", methods=['GET', 'POST'])
 def main_menu():
+    """
+    Show the main front page with the search bar, and latest job offers
+
+    :return: The `main.html` page
+    """
     latest_jobs = mongo.db.data.find().limit(10)
     form = SearchForm()
     if request.method == "POST" and form.validate_on_submit():
@@ -21,6 +26,16 @@ def main_menu():
 
 @app.route('/results')
 def get_results():
+    """
+
+    The function takes the query result and generates a page with all the results available.
+    It gets the TF-IDF model and uses cosine similarity on the keywords request, in a way that it returns
+    the most relevant results, which is then sent back in an ID
+
+    For the city, it performs a simple regex search on the adress.
+
+    :return: the results page if the query isn't empty, otherwise the main page
+    """
     keywords = request.args.get("keywords")
     city = request.args.get("city")
     if not keywords and not city:
@@ -29,7 +44,7 @@ def get_results():
     else:
         offer_request = {}
         if keywords:
-            keywords = re.split(r'\W', keywords)
+            keywords = re.split(r'\W', keywords.lower())
             keyword_vector = searchbar_model["model"].transform(keywords)
             cos_d = cosine_similarity(keyword_vector, searchbar_model["X"])
             simlist = cos_d[0]
@@ -45,5 +60,11 @@ def get_results():
 
 @app.route("/offer/<string:offer_id>")
 def show_offer(offer_id):
+    """
+    Takes the ID of an offer in the database and shows the information
+
+    :param offer_id: :type string: The ID of the offer in the database
+    :return: a page with the offer ID and the description
+    """
     offer = mongo.db.data.find_one_or_404({"_id": offer_id})
     return render_template('offer.html', title=offer["title"], offer=offer)
