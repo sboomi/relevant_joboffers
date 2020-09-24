@@ -6,6 +6,7 @@ import re
 from jcmodule import app, mongo, searchbar_model
 from jcmodule.forms import SearchForm
 
+
 @app.route('/')
 @app.route("/main", methods=['GET', 'POST'])
 def main_menu():
@@ -25,12 +26,15 @@ def get_results():
     if not keywords and not city:
         flash('Hmm... Your query is empty...', 'info')
         return render_template('results.html', results=mongo.db.data.find().limit(10))
-    keywords = re.split(r'\W', keywords)
-    keyword_vector = searchbar_model["model"].transform(keywords)
-    cos_d = cosine_similarity(keyword_vector, searchbar_model["X"])
-    simlist = cos_d[0]
-    get_ids = [searchbar_model["y"][i] for i in np.argsort(simlist)[::-1]]
-    offer_request = {"_id": {"$in": get_ids}}
+    else:
+        offer_request = {}
+        if keywords:
+            keywords = re.split(r'\W', keywords)
+            keyword_vector = searchbar_model["model"].transform(keywords)
+            cos_d = cosine_similarity(keyword_vector, searchbar_model["X"])
+            simlist = cos_d[0]
+            get_ids = [searchbar_model["y"][i] for i in np.argsort(simlist)[::-1]]
+            offer_request["_id"] = {"$in": get_ids}
     if city:
         offer_request["city"] = {"$regex": city,
                                  "$options": 'i'}
