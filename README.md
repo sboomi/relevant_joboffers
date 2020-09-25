@@ -21,22 +21,39 @@ Python 3.8.x is also needed on your system. Load the `requirements.txt` file in 
 pip install -r requirements.txt
 ```
 
-## Database
+## Database manager
 
-The main database will be a MongoDB database, which is not only useful for scalability, but also stocking subcollections.
+The database is hosted on a MongoDB Atlas Database (free tier)
 
-Each collection will be named after a special query (ex. "data)
+* Username: testuser
+* Password: testuser
 
-The database will be fed at the appropriate hours.
+It's ruled by three operations repeating themselves at 9 AM :
 
-A PostgreSQL alternative is considered, but the whole process will be stocked inside a MongoDB database.
+* Inserting and updating data from one or multiple job boards
+* Cleaning up the data in a clean collection
+* Creating a TF-IDF model from the clean data, used in the app
+
+The current schema of the database goes like this
+
+| _id                 | string |
+|---------------------|--------|
+| url                 | string |
+| title               | string |
+| company             | string |
+| address             | string |
+| description         | string |
+| job_type            | string |
+| keyword_frequency   | Array  |
+| descriptionLanguage | string |
 
 ## App
 
 Though a **Flask** app the user can do queries and fetch a job by certain criteria :
 * Keywords
 * City
-* Title
+
+The algorithm will perform a cosine similarity over the vectorized keyword string and return on a result page the most relevant offers. The city argument will be used to perform a regex search on it.
 
 ## Messaging
 
