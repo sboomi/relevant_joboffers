@@ -32,7 +32,7 @@ def get_stopwords(locale_string):
     """
     sw = set()
     try:
-        file = open(f"ressources/stopwords_{locale_string}.txt", "r", encoding="utf-8")
+        file = open(f"db-update/ressources/stopwords_{locale_string}.txt", "r", encoding="utf-8")
     except FileNotFoundError:
         print("Error, file doesn't exist... Creating stopword list...")
         sw = generate_stopword_list(locale_string)
@@ -55,7 +55,7 @@ def generate_stopword_list(locale_string):
     languages = {"en": "english", "fr": "french", "de": "german"}
     sw = stopwords.words(languages[locale_string])
     filename = f"stopwords_{locale_string}.txt"
-    with open(f"ressources/{filename}", "w", encoding="utf-8") as file:
+    with open(f"db-update/ressources/{filename}", "w", encoding="utf-8") as file:
         for word in sw:
             file.write(word + '\n')
     print(f"{filename} generated!")

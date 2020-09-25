@@ -6,7 +6,7 @@ from sklearn.feature_extraction.text import TfidfVectorizer
 from pymongo import MongoClient
 import pickle
 
-filename = "jobcentral-app/searchbar_model"
+filename = "jobcentral-app/jcmodule/searchbar_model"
 tfidf_v = TfidfVectorizer()
 
 client = MongoClient(

@@ -15,6 +15,9 @@ We're retrieving the essential information :
 
 Need Firefox installed, then the most recent version of GeckoDriver, as a PATH variable. On the long term, geckDriver is much more reliable than Chrome's driver due to less frequent updates.
 
+* [Download Firefox](https://www.mozilla.org/fr/firefox/new/)
+* [Download GeckoDriver](https://github.com/mozilla/geckodriver/releases)
+
 Python 3.8.x is also needed on your system. Load the `requirements.txt` file in a separate environment (conda, venv, etc...) and launch
 
 ```shell
@@ -26,19 +29,22 @@ pip install -r requirements.txt
 To start the database manager, follow these instructions
 
 ```shell
-python jobscraping/jobscraping.py 
-python model/clean_database.py 
-python model/tfidf.py
+python db-update/jobscraping/jobscraping.py 
+python db-update/model/clean_database.py 
+python db-update/model/tfidf.py
 ```
 
 For the app, launch `app.py` as if it was a regular Flask app :
 
 ```shell
 #On Linux: shell
-$ export FLASK_APP=app.py
+$ export FLASK_APP=jobcentral-app/app.py
 
 #On Windows: cmd
-C:\path\to\app>set FLASK_APP=app.py
+C:\path\to\joboffers>set FLASK_APP=jobcentral-app\app.py
+
+#On windows: powershell
+$env:FLASK_APP = "hello.py"
 
 flask run
 ```
