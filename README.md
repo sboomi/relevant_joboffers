@@ -21,6 +21,28 @@ Python 3.8.x is also needed on your system. Load the `requirements.txt` file in 
 pip install -r requirements.txt
 ```
 
+### Launch test
+
+To start the database manager, follow these instructions
+
+```shell
+python jobscraping/jobscraping.py 
+python model/clean_database.py 
+python model/tfidf.py
+```
+
+For the app, launch `app.py` as if it was a regular Flask app :
+
+```shell
+#On Linux: shell
+$ export FLASK_APP=app.py
+
+#On Windows: cmd
+C:\path\to\app>set FLASK_APP=app.py
+
+flask run
+```
+
 ## Database manager
 
 The database is hosted on a MongoDB Atlas Database (free tier)
